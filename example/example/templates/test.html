@@ -1,0 +1,9 @@
+{% extends "index.html" %}
+
+{% block content %}
+Test!
+<div id="container" style="border:1px black solid;">
+  {% include 'include/test.html' %}
+</div>
+<a href="{% url test message=message %}">Test</a>
+{% endblock %}

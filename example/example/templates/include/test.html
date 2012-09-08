@@ -1,0 +1,13 @@
+<textarea>{{message}}</textarea>
+<p>
+<a href="{% url test message=message|add:'1' %}">Next</a>
+<p>
+<input type="checkbox">
+{{message}}
+<div id="cute"></div>
+<script>
+$(function(){
+  $("#cute").html(Math.random());
+  console.log($("#cute").html());
+})
+</script>
