@@ -50,6 +50,6 @@ HTML/JS
 
 The first argument is the url of the GET request.
 
-The second argument is a callback function that will be run when the request is complete. context is the data sent back by the server.
+The second argument is a callback function that will be run when the request is complete. ```context``` is the data sent back by the server.
 
-The $("a").click(onclick); must be run again since the newly substituted html data hasn't had that run yet. (though any javascript inside the html will be run.)
+The ```$("a").click(onclick);``` must be run again since the newly substituted html data hasn't had that run yet. (Though any javascript inside the html will be run.)
