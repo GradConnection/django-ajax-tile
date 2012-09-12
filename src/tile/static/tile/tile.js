@@ -124,12 +124,15 @@ function post_to_url(path, parameters) {
     //  2. Add the state's changes
 
     var state = window.History.getState().data['state'];
-    var id = state.id;
-    if (stateData[id]) {
-      state = stateData[id];
-    }
-    else {
-      stateData[id] = state; 
+
+    if (state) {
+      var id = state.id;
+      if (stateData[id]) {
+        state = stateData[id];
+      }
+      else {
+        stateData[id] = state; 
+      }
     }
 
     // Save previous state's current 'state' before drawing over it.
@@ -141,12 +144,12 @@ function post_to_url(path, parameters) {
     }
 
     // Undo next state's changes without executing script.
-    if (state.forwardSelector && state.forwardSelected) {
+    if (state && state.forwardSelector && state.forwardSelected) {
       $(state.forwardSelector).replaceWith(state.forwardSelected);
     }
 
     // Apply this state's changes, and execute scripts if any.
-    if (state.currentSelector) {
+    if (state && state.currentSelector) {
       if (!state.currentSelected) {
         // No previous 'state' was stored, so use raw HTML.
         // Will execute script in HTML.
@@ -173,7 +176,7 @@ function post_to_url(path, parameters) {
         });
       }
     }
-    if (state.callback) {
+    if (state && state.callback) {
       state.callback(state.metadata);
     }
     previousState = state;
