@@ -4,7 +4,7 @@ import os
 import sys
 from setuptools import find_packages, setup
 
-setup(name = "tile",
+setup(name = "django-ajax-tile",
       author = "Eric Man",
       url = "http://github.com/GradConnection/django-ajax-tile",
       version = "0.0",
