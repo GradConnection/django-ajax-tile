@@ -15,7 +15,7 @@ setup(name = "tile",
       version = version,
       packages = ['tile',],
       package_dir = {'': ''},
-      package_data = {'tile': ['static/*',],},
+      package_data = {'tile': ['static',],},
       # distutils complain about these, anyone know an easy way to silence it?
       zip_safe = True,
 )
