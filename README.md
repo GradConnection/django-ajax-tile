@@ -1,6 +1,11 @@
 django-ajax-tile
 ================
 
+Installation
+============
+
+pip install git+ssh://git@github.com/GradConnection/django-ajax-tile.git
+
 Example
 =======
 

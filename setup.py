@@ -19,7 +19,6 @@ setup(name = "tile",
       package_dir = {'': ''},
       package_data = {'tile': ['static/*',],},
       # distutils complain about these, anyone know an easy way to silence it?
-      namespace_packages = [''],
       zip_safe = True,
 )
 
