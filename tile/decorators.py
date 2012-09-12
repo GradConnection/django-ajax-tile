@@ -17,7 +17,15 @@ def tile(template, selector, context_data=[], title=None):
         response['X-Tile-Partial'] = True
         response['X-Tile-Selector'] = selector
         if title:
-          response['X-Tile-Title'] = title
+          if hasattr(title, "__call__"):
+            try:
+              response['X-Tile-Title'] = title()
+            except:
+              response['X-Tile-Title'] = title(request)
+          else:
+            if not isinstance(title, basestring):
+              raise TypeError("title must be a string or function")
+            response['X-Tile-Title'] = title
         if context_data:
           data = {key:response.context_data[key] for key in context_data}
           response['X-Tile-Context-Data'] = json.dumps(data)

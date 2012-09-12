@@ -7,14 +7,28 @@
   <script type="text/javascript" src="{{STATIC_URL}}tile/tile.js"></script>
   <script>
   $(function(){
-    $("a").live('click', function(e) {
+    function onclick(e) {
       e.preventDefault();
       tile.get($(this).attr("href"), function(context){
+        $("a").click(onclick);
         if (context) {
           $("span").text(context["message"]);
         }
       });
-    });
+    }
+    $("a").click(onclick);
+
+    function onsubmit(e) {
+      e.preventDefault();
+      tile.post($(this).attr("action"), $(this).serializeObject(), 
+        function(context){
+          if (context) {
+            $("span").text(context["message"]);
+          }
+      });
+    }
+    $("form").submit(onsubmit);
+
   });
   </script>
 </head>
@@ -28,6 +42,12 @@
   {% endblock %}
   <p>
   <span>Message outside container</span>
+
+  <form method="post" action="{% url test message=message|default:'post'|add:'1' %}">
+    {% csrf_token %}
+    <input type="submit"></input>
+  </form>
+
 </body>
 </html>
 

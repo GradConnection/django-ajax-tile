@@ -1,5 +1,6 @@
 *.py[co]
-
+.DS_Store
+tile-env/
 # Packages
 *.egg
 *.egg-info
