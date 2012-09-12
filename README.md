@@ -4,7 +4,22 @@ django-ajax-tile
 Installation
 ============
 
+In terminal, run:
+
     pip install git+ssh://git@github.com/GradConnection/django-ajax-tile.git
+
+
+In settings.py:
+
+    MIDDLEWARE_CLASSES = (
+      ...,
+      'tile.middleware.TileMiddleware',
+    )
+
+    INSTALLED_APPS = (
+      ...,
+      'tile',
+    )
 
 Example
 =======
