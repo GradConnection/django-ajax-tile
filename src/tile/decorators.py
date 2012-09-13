@@ -34,4 +34,3 @@ def tile(template, selector, context_data=[], title=None):
       return response
     return _wrapped
   return _decorator
-
