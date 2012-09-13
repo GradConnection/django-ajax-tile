@@ -97,7 +97,7 @@
       }
       return;
     }
-
+    
     $.ajax({
       type: type,
       url: url,

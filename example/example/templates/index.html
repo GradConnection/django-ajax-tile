@@ -9,13 +9,13 @@
     function onclick(e) {
       e.preventDefault();
       tile.get($(this).attr("href"), function(context){
-        $("a").click(onclick);
+        $("a.ajax").click(onclick);
         if (context) {
           $("span").text(context["message"]);
         }
       });
     }
-    $("a").click(onclick);
+    $("a.ajax").click(onclick);
 
     function onsubmit(e) {
       e.preventDefault();
@@ -37,7 +37,7 @@
   <div id="container" style="border:1px black solid;">
     Message inside container
   </div>
-  <a href="{% url redirect message='from_index' %}">Test</a>
+  <a class="ajax" href="{% url redirect message='from_index' %}">Test</a>
   {% endblock %}
   <p>
   <span>Message outside container</span>

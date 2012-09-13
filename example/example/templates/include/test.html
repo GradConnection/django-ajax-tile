@@ -1,6 +1,6 @@
 <textarea>{{message}}</textarea>
 <p>
-<a href="{% url test message=message|add:'1' %}">Next</a>
+<a class="ajax" href="{% url test message=message|add:'1' %}">Next</a>
 <p>
 <input type="checkbox">
 {{message}}
@@ -8,7 +8,6 @@
 <script>
 $(function(){
   $("#cute").html(Math.random());
-  console.log(1);
-  //alert(1)
+  console.log("random number generated");
 })
 </script>
