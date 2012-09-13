@@ -104,6 +104,9 @@
       data: data,
       success: makeSuccess(url, title, data, callback),
       error:function(jqXHR, textStatus, errorThrown){
+        console.log(jqXHR);
+        console.log(textStatus);
+        console.log(errorThrown);
         window.location = url;
       },
       async:false
@@ -224,15 +227,16 @@
 
   function makeSuccess(url, title, data, callback){
     function success(htmlData, textStatus, jqXHR){
+      // Removes the problem of 301 redirected urls not in URL bar.
+      if (jqXHR.getResponseHeader("X-Tile-From-Location")) {
+        url = jqXHR.getResponseHeader("X-Tile-From-Location");
+      }
       var isPartial = jqXHR.getResponseHeader("X-Tile-Partial");
       if (!isPartial) {
         // Load the entire page.
         window.location = url;
       }
       else {
-        // Removes the problem of 301 redirected urls not in URL bar.
-        url = jqXHR.getResponseHeader("X-Tile-From-Location");
-
         // Where downloaded HTML will go.
         var selector = jqXHR.getResponseHeader("X-Tile-Selector");
 
@@ -242,9 +246,14 @@
         // Title to set window to.
         title = title || jqXHR.getResponseHeader("X-Tile-Title");
 
-        pushstate(url, title, data, htmlData, selector, callback, 
-          JSON.parse(metaData));
-
+        try {
+          pushstate(url, title, data, htmlData, selector, callback, 
+          JSON.parse(metaData));  
+        }
+        catch(err) {
+          window.location = url;
+        }
+        
         // Google analytics
         if ( typeof window.pageTracker !== 'undefined' ) {
             window.pageTracker._trackPageview(relativeUrl);

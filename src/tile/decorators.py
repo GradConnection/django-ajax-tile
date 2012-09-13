@@ -1,11 +1,12 @@
 import json
+from django.template.response import TemplateResponse
 
-def tile(template, selector, context_data=[], title=None):
+def tile(template=None, selector=None, context_data=[], title=None):
   def _decorator(view):
-    if not isinstance(selector, basestring):
+    if not isinstance(selector, basestring) and selector is not None:
       raise TypeError("selector must be a string")
 
-    if not isinstance(template, basestring):
+    if not isinstance(template, basestring) and template is not None:
       raise TypeError("template must be a string")
 
     if not isinstance(context_data, list):
@@ -29,8 +30,9 @@ def tile(template, selector, context_data=[], title=None):
         if context_data:
           data = [(key, response.context_data[key]) for key in context_data]
           response['X-Tile-Context-Data'] = json.dumps(dict(data))
-        response.template_name = "tile/template.html"
-        response.context_data['tile_template_name'] = template
+        if isinstance(response, TemplateResponse):
+          response.template_name = "tile/template.html"
+          response.context_data['tile_template_name'] = template
       return response
     return _wrapped
   return _decorator
