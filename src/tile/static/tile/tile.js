@@ -151,15 +151,12 @@
     // Apply this state's changes, and execute scripts if any.
     if (state && state.currentSelector) {
       if (!state.currentSelected) {
-        console.log("html")
         // No previous 'state' was stored, so use raw HTML.
         // Will execute script in HTML.
         // Need to fix.... back after refresh!
-        console.log("id: " + state.id)
         $(state.currentSelector).html(state.currentHTML);
       }
       else {
-        console.log("memory")
         // Previous 'state' (may have user input data).
         // Will not execute script in the cloned node so do it manually.
         $(state.currentSelector).replaceWith(clone(state.currentSelected));
