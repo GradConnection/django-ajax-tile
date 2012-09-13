@@ -1,47 +1,44 @@
-// Fix .clone for textarea
-(function (original) {
-  // https://github.com/spencertipping/jquery.fix.clone/blob/master/jquery.fix.clone.js
-  jQuery.fn.clone = function () {
-    var result           = original.apply(this, arguments),
-        my_textareas     = this.find('textarea').add(this.filter('textarea')),
-        result_textareas = result.find('textarea').add(result.filter('textarea')),
-        my_selects       = this.find('select').add(this.filter('select')),
-        result_selects   = result.find('select').add(result.filter('select'));
+(function(window, $, undefined){
+  // Exported functions
+  function clone(elt){
+    // https://github.com/spencertipping/jquery.fix.clone
+    elt = jQuery(elt);
+    var result           = elt.clone();
+      my_textareas     = elt.find('textarea').add(elt.filter('textarea')),
+      result_textareas = result.find('textarea').add(result.filter('textarea')),
+      my_selects       = elt.find('select').add(elt.filter('select')),
+      result_selects   = result.find('select').add(result.filter('select'));
 
-    for (var i = 0, l = my_textareas.length; i < l; ++i) $(result_textareas[i]).val($(my_textareas[i]).val());
-    for (var i = 0, l = my_selects.length;   i < l; ++i) result_selects[i].selectedIndex = my_selects[i].selectedIndex;
+    for (var i = 0, l = my_textareas.length; i < l; ++i) 
+      $(result_textareas[i]).val($(my_textareas[i]).val());
+    for (var i = 0, l = my_selects.length;   i < l; ++i) 
+      result_selects[i].selectedIndex = my_selects[i].selectedIndex;
 
     return result;
-  };
-}) (jQuery.fn.clone);
+  }
 
-// Post to the provided URL with the specified parameters.
-function post_to_url(path, parameters) {
-    var form = $('<form></form>');
+  // Post to the provided URL with the specified parameters.
+  function post_to_url(path, parameters) {
+      var form = $('<form></form>');
 
-    form.attr("method", "post");
-    form.attr("action", path);
+      form.attr("method", "post");
+      form.attr("action", path);
 
-    $.each(parameters, function(key, value) {
-        var field = $('<input></input>');
+      $.each(parameters, function(key, value) {
+          var field = $('<input></input>');
 
-        field.attr("type", "hidden");
-        field.attr("name", key);
-        field.attr("value", value);
+          field.attr("type", "hidden");
+          field.attr("name", key);
+          field.attr("value", value);
 
-        form.append(field);
-    });
+          form.append(field);
+      });
 
-    // The form needs to be apart of the document in
-    // order for us to be able to submit it.
-    $(document.body).append(form);
-    form.submit();
-}
-
-
-(function(window, undefined){
-  // Exported functions
-
+      // The form needs to be apart of the document in
+      // order for us to be able to submit it.
+      $(document.body).append(form);
+      form.submit();
+  }
   function available() {
     return (JSON && window.history.pushState && window.History);
   }
@@ -106,6 +103,9 @@ function post_to_url(path, parameters) {
       url: url,
       data: data,
       success: makeSuccess(url, title, data, callback),
+      error:function(jqXHR, textStatus, errorThrown){
+        window.location = url;
+      },
       async:false
     });
   }
@@ -139,26 +139,30 @@ function post_to_url(path, parameters) {
     if (previousState){
       var selector = previousState.currentSelector;
       if (selector) {
-        previousState.currentSelected = $(selector).clone();
+        previousState.currentSelected = clone(selector);
       }
     }
 
     // Undo next state's changes without executing script.
-    if (state && state.forwardSelector && state.forwardSelected) {
+    if (state && state.forwardSelector && state.forwardSelected && previousState) {
       $(state.forwardSelector).replaceWith(state.forwardSelected);
     }
 
     // Apply this state's changes, and execute scripts if any.
     if (state && state.currentSelector) {
       if (!state.currentSelected) {
+        console.log("html")
         // No previous 'state' was stored, so use raw HTML.
         // Will execute script in HTML.
+        // Need to fix.... back after refresh!
+        console.log("id: " + state.id)
         $(state.currentSelector).html(state.currentHTML);
       }
       else {
+        console.log("memory")
         // Previous 'state' (may have user input data).
         // Will not execute script in the cloned node so do it manually.
-        $(state.currentSelector).replaceWith($(state.currentSelected).clone());
+        $(state.currentSelector).replaceWith(clone(state.currentSelected));
         $(state.currentHTML).filter("script").each(function(){
           if(this.src) {
             var script = document.createElement('script');
@@ -192,9 +196,9 @@ function post_to_url(path, parameters) {
     if (selector) {
       var lastState = window.History.getState().data['state'];
       if (lastState) {
-        lastState.forwardSelected = as_html($(selector).clone());
+        lastState.forwardSelected = as_html(clone(selector));
         lastState.forwardSelector = selector; 
-        stateData[lastState.id].forwardSelected = $(selector).clone();
+        stateData[lastState.id].forwardSelected = clone(selector);
         stateData[lastState.id].forwardSelector = selector; 
       }
     }
@@ -256,6 +260,6 @@ function post_to_url(path, parameters) {
 
   // Save initial state.
   $(function(){ pushstate(document.URL); });
-})(window);
+})(window, jQuery);
 
 
