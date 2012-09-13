@@ -248,7 +248,7 @@
 
         try {
           pushstate(url, title, data, htmlData, selector, callback, 
-          JSON.parse(metaData));  
+            JSON.parse(metaData));  
         }
         catch(err) {
           window.location = url;

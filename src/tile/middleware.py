@@ -16,7 +16,6 @@ class TileMiddleware(object):
       response['X-Tile-From-Location'] = response['location']
       if response.get('X-Tile-Partial'):
         new_response = http.HttpResponse("")
-        new_response['X-Tile-Partial'] = True
         new_response['X-Tile-From-Location'] = response['location']
         return new_response
     else:
