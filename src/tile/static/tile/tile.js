@@ -107,6 +107,7 @@
         console.log(jqXHR);
         console.log(textStatus);
         console.log(errorThrown);
+        console.log(jqXHR.responseText);
         window.location = url;
       },
       async:false
