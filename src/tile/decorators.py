@@ -27,12 +27,11 @@ def tile(template=None, selector=None, context_data=[], title=None):
             if not isinstance(title, basestring):
               raise TypeError("title must be a string or function")
             response['X-Tile-Title'] = title
-        if context_data:
+        if isinstance(response, TemplateResponse):
           data = [(key, response.context_data[key]) for key in context_data]
-          response['X-Tile-Context-Data'] = json.dumps(dict(data))
-        if isinstance(response, TemplateResponse) and hasattr(response, context_data):
           response.template_name = "tile/template.html"
           response.context_data['tile_template_name'] = template
+          response['X-Tile-Context-Data'] = json.dumps(dict(data))
       return response
     return _wrapped
   return _decorator
