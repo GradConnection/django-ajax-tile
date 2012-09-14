@@ -30,7 +30,7 @@ def tile(template=None, selector=None, context_data=[], title=None):
         if context_data:
           data = [(key, response.context_data[key]) for key in context_data]
           response['X-Tile-Context-Data'] = json.dumps(dict(data))
-        if isinstance(response, TemplateResponse):
+        if isinstance(response, TemplateResponse) and hasattr(response, context_data):
           response.template_name = "tile/template.html"
           response.context_data['tile_template_name'] = template
       return response
