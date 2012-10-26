@@ -53,8 +53,6 @@
     ajax("POST", url, title, data);
   }
 
-  tile = { get:get, post:post, available:available}
-
   // ajax(type, url [title], [data], [callback])
   function ajax(type, url, title, data, callback){
     args = [title, data, callback].filter(function(a){ return a; });
@@ -225,6 +223,8 @@
     stateData[id].callback = callback;
     window.History.pushState({state:state}, title, url);
   }
+
+  tile = { get:get, post:post, available:available, pushstate:pushstate}
 
   function makeSuccess(url, title, data, callback){
     function success(htmlData, textStatus, jqXHR){
