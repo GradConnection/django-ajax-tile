@@ -157,6 +157,22 @@
         // Will execute script in HTML.
         // Need to fix.... back after refresh!
         $(state.currentSelector).html(state.currentHTML);
+	$(state.currentHTML).filter("script").each(function(){
+          if(this.src) {
+            var script = document.createElement('script');
+            var i, attrName, attrValue, attrs = this.attributes;
+            for(i = 0; i < attrs.length; i++) {
+              attrName = attrs[i].name;
+              attrValue = attrs[i].value;
+              script[attrName] = attrValue;
+            }
+            $(state.currentSelector)[0].append(script);
+          }
+          else {
+            $.globalEval(this.text || this.textContent || this.innerHTML || '');
+          }
+        });
+
       }
       else {
         // Previous 'state' (may have user input data).
