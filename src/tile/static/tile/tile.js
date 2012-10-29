@@ -152,7 +152,7 @@
 
     // Apply this state's changes, and execute scripts if any.
     if (state && state.currentSelector) {
-      if (!state.currentSelected) {
+      /*if (!state.currentSelected) {
         // No previous 'state' was stored, so use raw HTML.
         // Will execute script in HTML.
         // Need to fix.... back after refresh!
@@ -171,7 +171,7 @@
           else {
             $.globalEval(this.text || this.textContent || this.innerHTML || '');
           }
-        });
+        });*/
 
       }
       else {
