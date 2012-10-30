@@ -1,6 +1,8 @@
 django-ajax-tile
 ================
 
+Use https://github.com/defunkt/jquery-pjax/ instead.
+
 Installation
 ============
 
